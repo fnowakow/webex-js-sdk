@@ -1,6 +1,6 @@
 import {NamedMediaGroup} from '@webex/internal-media-core';
 import type {CodecInfo} from './codec/types';
-import {ReceiveSlot} from './receiveSlot';
+import type {ReceiveSlot} from './receiveSlot';
 
 export interface ActiveSpeakerPolicyInfo {
   policy: 'active-speaker';
@@ -18,16 +18,6 @@ export interface ReceiverSelectedPolicyInfo {
 
 export type PolicyInfo = ActiveSpeakerPolicyInfo | ReceiverSelectedPolicyInfo;
 
-export interface MediaRequest {
-  policyInfo: PolicyInfo;
-  receiveSlots: Array<ReceiveSlot>;
-  codecInfo?: CodecInfo;
-  preferredMaxFs?: number;
-  handleMaxFs?: ({maxFs}: {maxFs: number}) => void;
-}
-
-export type MediaRequestId = string;
-
 export type RemoteVideoResolution =
   /** the smallest possible resolution, 90p or less */
   | 'thumbnail'
@@ -41,3 +31,17 @@ export type RemoteVideoResolution =
   | 'large'
   /** highest possible resolution */
   | 'best';
+
+export type SizeHint = {width?: number; height?: number; resolution?: RemoteVideoResolution};
+
+export interface MediaRequest {
+  policyInfo: PolicyInfo;
+  receiveSlots: Array<ReceiveSlot>;
+  codecInfos?: CodecInfo[];
+  preferredMaxFs?: number;
+  sizeHint?: SizeHint;
+  handleMaxFs?: ({maxFs}: {maxFs: number}) => void;
+  handleSizeHint?: (sizeHint: SizeHint) => void;
+}
+
+export type MediaRequestId = string;

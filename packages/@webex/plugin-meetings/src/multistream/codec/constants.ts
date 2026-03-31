@@ -1,6 +1,15 @@
 import {H264EncodingParams, SupportedResolution} from '@webex/internal-media-core';
 import {RemoteVideoResolution} from '../types';
 
+export const DEGRADATION_FRAME_SIZE = {
+  '90p': 60,
+  '180p': 240,
+  '360p': 920,
+  '540p': 2040,
+  '720p': 3600,
+  '1080p': 8192,
+} satisfies Record<SupportedResolution, number>;
+
 export const H264_CODEC_PARAMETERS = {
   '90p': {
     maxFs: 60,
@@ -38,3 +47,13 @@ export const PANE_SIZE_TO_RESOLUTION = {
   large: '1080p',
   best: '1080p',
 } satisfies Record<RemoteVideoResolution, SupportedResolution>;
+
+/** Higher rank = larger nominal pane / resolution */
+export const PANE_SIZE_RANK = {
+  thumbnail: 1,
+  'very small': 2,
+  small: 3,
+  medium: 4,
+  large: 5,
+  best: 6,
+} satisfies Record<RemoteVideoResolution, number>;
